@@ -3,20 +3,28 @@ rm(list=ls(all=TRUE))
 library(xlsx)
 setwd("C:/Users/home/Desktop/COPD research")
 
-
-#reading the data and remove tge data with APACHEDiagnosis != 206
-fileNames = list.files(pattern=".xlsx", all.files=FALSE,full.names=FALSE)
-myfunc <- function(x) {
-  myData<-read.xlsx(x, sheetIndex = 1)
-  myData<-subset(myData, APACHEDiagnosis == 206, select=-c(APACHEDiagnosis)) 
-  return(myData)
-} 
-dataList <- lapply(data.files[], myfunc)
-
-dataStiched <- do.call(rbind,dataList)
-write.xlsx(dataStiched, file = "COPDStiched.xlsx")
+dataIsStored = TRUE
+if(!dataIsStored)
+{
+  #reading the data and remove tge data with APACHEDiagnosis != 206
+  fileNames = list.files(pattern=".xlsx", all.files=FALSE,full.names=FALSE)
+  myfunc <- function(x) {
+    myData<-read.xlsx(x, sheetIndex = 1)
+    myData<-subset(myData, APACHEDiagnosis == 206, select=-c(APACHEDiagnosis)) 
+    return(myData)
+  } 
+  dataList <- lapply(fileNames, myfunc)
+  dataStiched <- do.call(rbind,dataList)
+  write.xlsx(dataStiched, file = "COPDStiched.xlsx")
+} else
+{
+  dataStiched = read.xlsx(file = "COPDStiched.xlsx", sheetIndex = 1)
+}
 
 myData<-dataStiched
+
+
+
 #Return the sig variables for a given output variable
 function(myData,outputVariableName)
 {
