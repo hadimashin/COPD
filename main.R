@@ -1,4 +1,3 @@
-
 rm(list=ls(all=TRUE))
 library(xlsx)
 
@@ -24,11 +23,23 @@ if(!dataIsStored)
   write.xlsx(dataStiched, file = "COPDStiched.xlsx")
 } else
 {
-  dataStiched = read.xlsx(file = "COPDStiched.xlsx", sheetIndex = 1)
+  dataStiched = read.xlsx(file = "COPDStichedAmended.xlsx", sheetIndex = 1)
 }
 
 myData<-dataStiched
 
 setwd(workingDirectoryCode)
+source("dropUnnecessaryColumns.R")
+myDataCleaned <- dropUnnecessaryColumns(myData,workingDirectoryData)
+
+
+setwd(workingDirectoryCode)
 source("exclusionCriteria.R")
-includedData <- exclusionCriteria(workingDirectoryData)
+includedData <- exclusionCriteria(myDataCleaned,workingDirectoryData)
+
+
+
+
+
+
+

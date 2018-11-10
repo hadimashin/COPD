@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+createAmendFile.R
+dirtBook.R
